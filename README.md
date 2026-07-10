@@ -1,9 +1,15 @@
-# Resort Revenue Analytics — a dbt project
+# Resort Revenue Analytics — a dbt warehouse + an AI analyst
 
-A production-shaped [dbt](https://www.getdbt.com/) project that models a fictional
-vacation-resort company ("the Cabana Collection") end to end: raw operational data →
-tested, documented, layered models → a finance-grade **booked-vs-recognized revenue
-reconciliation** mart.
+Two complementary halves of one project:
+
+1. **A production-shaped [dbt](https://www.getdbt.com/) warehouse** that models a fictional
+   vacation-resort company ("the Cabana Collection") end to end: raw operational data →
+   tested, documented, layered models → a finance-grade **booked-vs-recognized revenue
+   reconciliation** mart.
+2. **An [AI analyst app](ai_analyst/)** that sits on top of that warehouse: ask a question
+   in plain English, **Claude Code** writes the SQL, a **verification gate** confirms it is
+   read-only and touches only approved tables, and it runs against the marts. AI drafts the
+   query; a guardrail decides whether it runs — the same governed-AI discipline, in code.
 
 It runs on **DuckDB** out of the box (zero setup, no cloud account) and is written to
 run unchanged on **Snowflake** by switching the dbt target. All data is **100%
