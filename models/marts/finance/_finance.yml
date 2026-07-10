@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: fct_commissions
+    description: "Commission-grain fact with expected-vs-recorded drift detection."
+    columns:
+      - name: commission_id
+        data_tests: [unique, not_null]
+      - name: booking_id
+        data_tests:
+          - relationships:
+              to: ref('fct_bookings')
+              field: booking_id
+
+  - name: fct_revenue_reconciliation
+    description: >
+      Resort x month reconciliation of booked vs recognized revenue. The headline
+      artifact of the project.
+    columns:
+      - name: resort_id
+        data_tests: [not_null]
+      - name: booking_month
+        data_tests: [not_null]
+      - name: booked_revenue_usd
+        data_tests: [not_null]
+      - name: recognized_revenue_usd
+        data_tests: [not_null]
+
+exposures:
+  - name: revenue_reconciliation_dashboard
+    label: "Revenue Reconciliation Dashboard"
+    type: dashboard
+    maturity: high
+    url: "https://example.com/dashboards/revenue-reconciliation"
+    description: >
+      Finance-facing dashboard tracking booked-vs-recognized revenue variance by
+      resort and month. Modeled here as a dbt exposure so the lineage graph shows
+      what breaks if an upstream model changes.
+    depends_on:
+      - ref('fct_revenue_reconciliation')
+      - ref('fct_bookings')
+    owner:
+      name: David Gofman
+      email: dsgofman@gmail.com

@@ -1,0 +1,61 @@
+agent_id,agent_name,hire_date,territory,is_active
+A0001,Elizabeth Alvarado,2017-04-14,Pacific,True
+A0002,Steve Newton,2017-08-23,Caribbean,True
+A0003,Larry Robbins,2018-06-19,Caribbean,True
+A0004,Sarah Wagner,2019-04-10,Mountain,True
+A0005,Sarah Davis,2022-03-17,Gulf Coast,True
+A0006,Amanda Cook,2017-03-23,Mediterranean,True
+A0007,Deborah Figueroa,2024-05-21,Pacific,True
+A0008,Kristina Rodriguez,2017-07-15,Mountain,True
+A0009,Sandra Aguilar,2017-07-09,Mountain,True
+A0010,Andrew Diaz,2015-09-05,Gulf Coast,True
+A0011,Christine Wright,2016-09-30,Mediterranean,True
+A0012,Justin Baxter,2017-08-18,Mediterranean,True
+A0013,Cynthia Martin,2018-01-05,Mediterranean,True
+A0014,Allison Doyle,2020-08-26,Gulf Coast,True
+A0015,Jennifer Santiago,2019-03-23,Gulf Coast,True
+A0016,Richard Rodriguez,2015-08-29,Caribbean,True
+A0017,Courtney Velasquez,2022-10-31,Caribbean,True
+A0018,Robert Savage,2018-10-17,Gulf Coast,True
+A0019,Corey Murphy,2016-03-07,Mountain,True
+A0020,Diana May,2021-10-19,Mountain,True
+A0021,Sarah Rivera,2015-06-21,Mountain,True
+A0022,Wesley White,2019-07-08,Mediterranean,True
+A0023,Kyle Reed,2020-05-03,Caribbean,True
+A0024,William Wilson,2018-03-27,Caribbean,True
+A0025,Michael Smith,2024-02-28,Mediterranean,True
+A0026,Teresa Mclaughlin,2018-05-09,Pacific,True
+A0027,Benjamin Beck,2020-08-13,Mountain,True
+A0028,Mary Martinez,2020-02-10,Caribbean,True
+A0029,Mary Nguyen,2020-01-12,Pacific,True
+A0030,Cheryl Ortega,2021-06-13,Gulf Coast,True
+A0031,Stephanie Gilbert,2020-02-14,Caribbean,True
+A0032,Roy Torres,2018-07-30,Pacific,True
+A0033,Kevin Pena,2022-11-29,Mediterranean,True
+A0034,Michael Dixon,2017-11-20,Gulf Coast,True
+A0035,Diane Beck,2020-09-13,Gulf Coast,True
+A0036,Trevor Young,2020-04-12,Mediterranean,True
+A0037,Curtis Johnson,2019-03-02,Mediterranean,True
+A0038,Miss Patricia Gibson,2018-04-23,Caribbean,True
+A0039,Janet Ross,2017-07-05,Pacific,True
+A0040,Abigail Potter,2016-10-24,Pacific,True
+A0041,Colleen Brock,2023-10-24,Gulf Coast,True
+A0042,Justin Lowery,2017-01-24,Caribbean,False
+A0043,Robert Contreras,2020-05-25,Mountain,True
+A0044,Stephanie Salazar,2023-08-03,Mediterranean,True
+A0045,Terry Griffin,2017-09-15,Gulf Coast,True
+A0046,Karen Green,2019-03-17,Mediterranean,True
+A0047,Destiny Strickland,2023-03-31,Mediterranean,True
+A0048,Denise Jones,2019-11-11,Mountain,True
+A0049,George Orozco,2016-05-15,Mediterranean,True
+A0050,David Benson,2018-08-22,Gulf Coast,True
+A0051,Jason Daniels,2022-01-27,Mountain,True
+A0052,Ross Price,2015-05-02,Pacific,True
+A0053,Pamela James,2015-02-06,Mediterranean,True
+A0054,Elizabeth Price,2022-02-16,Gulf Coast,True
+A0055,Morgan Marsh,2018-10-02,Pacific,False
+A0056,Don Tucker MD,2021-11-17,Mediterranean,True
+A0057,Sara Calhoun,2024-02-01,Gulf Coast,False
+A0058,James Elliott,2015-06-18,Caribbean,True
+A0059,Jeffrey Camacho,2018-02-03,Caribbean,True
+A0060,James Lewis,2020-07-23,Caribbean,True

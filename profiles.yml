@@ -1,0 +1,25 @@
+# Project-local profiles. Run dbt with:  dbt build --profiles-dir .
+# Two targets: `dev` (DuckDB, zero-setup, the default) and `snowflake`
+# (portability illustration - the same models run unchanged; set the env vars to use it).
+resort_analytics:
+  target: dev
+  outputs:
+
+    dev:
+      type: duckdb
+      path: 'resort.duckdb'
+      threads: 4
+
+    # The identical dbt project runs on Snowflake by switching targets:
+    #   dbt build --profiles-dir . --target snowflake
+    # No secrets are committed; credentials come from environment variables.
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT', '') }}"
+      user: "{{ env_var('SNOWFLAKE_USER', '') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD', '') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'RESORT_ANALYTICS') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'ANALYTICS') }}"
+      threads: 4

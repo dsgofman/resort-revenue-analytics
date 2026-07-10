@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: stg_resorts
+    description: "One row per resort, lightly cleaned from the raw source."
+    columns:
+      - name: resort_id
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: room_count
+        data_tests:
+          - dbt_utils.accepted_range:
+              min_value: 1
+              max_value: 5000
+
+  - name: stg_agents
+    description: "One row per sales agent."
+    columns:
+      - name: agent_id
+        data_tests: [unique, not_null]
+      - name: is_active
+        data_tests: [not_null]
+
+  - name: stg_guests
+    description: "One row per guest."
+    columns:
+      - name: guest_id
+        data_tests: [unique, not_null]
+      - name: loyalty_tier
+        data_tests:
+          - accepted_values:
+              values: ['None', 'Silver', 'Gold', 'Platinum']
+
+  - name: stg_bookings
+    description: "One row per booking. Money carried as integer cents plus a dollar convenience column."
+    columns:
+      - name: booking_id
+        data_tests: [unique, not_null]
+      - name: resort_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_resorts')
+              field: resort_id
+      - name: agent_id
+        data_tests:
+          - relationships:
+              to: ref('stg_agents')
+              field: agent_id
+      - name: guest_id
+        data_tests:
+          - relationships:
+              to: ref('stg_guests')
+              field: guest_id
+      - name: status
+        data_tests:
+          - accepted_values:
+              values: ['completed', 'confirmed', 'cancelled', 'no_show']
+      - name: channel
+        data_tests:
+          - accepted_values:
+              values: ['Direct', 'OTA', 'Travel Agent', 'Corporate', 'Loyalty']
+
+  - name: stg_payments
+    description: "One row per payment event. Refunds are negative amounts."
+    columns:
+      - name: payment_id
+        data_tests: [unique, not_null]
+      - name: booking_id
+        data_tests:
+          - relationships:
+              to: ref('stg_bookings')
+              field: booking_id
+      - name: payment_status
+        data_tests:
+          - accepted_values:
+              values: ['settled', 'refunded', 'pending']
+
+  - name: stg_commissions
+    description: "One row per booking commission."
+    columns:
+      - name: commission_id
+        data_tests: [unique, not_null]
+      - name: booking_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_bookings')
+              field: booking_id
