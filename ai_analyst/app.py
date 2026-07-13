@@ -69,12 +69,11 @@ EXAMPLES = [
     "Monthly booked vs recognized revenue trend",
 ]
 st.write("**Try one:**")
-clicked = None
 for col, ex in zip(st.columns(len(EXAMPLES)), EXAMPLES):
     if col.button(ex, use_container_width=True):
-        clicked = ex
+        st.session_state["question"] = ex
 
-question = st.text_input("Your question", value=clicked or "")
+question = st.text_input("Your question", key="question")
 
 if question:
     schema = get_schema_context(DB_PATH)
