@@ -1,8 +1,0 @@
-streamlit>=1.40
-duckdb>=1.1
-pandas>=2
-altair>=5
-
-# Live natural-language-to-SQL uses the Claude Code CLI (`claude`) in headless mode
-# (`claude -p`) - no Python package or API key required. If `claude` is not on PATH,
-# the app runs in offline demo mode automatically.

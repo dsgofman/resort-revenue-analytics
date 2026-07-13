@@ -1,3 +1,0 @@
-dbt-duckdb>=1.9,<2.0
-faker>=25
-pandas>=2
