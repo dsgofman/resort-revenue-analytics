@@ -1,0 +1,13 @@
+# Locked light theme so the app renders identically on every machine and matches
+# the deck's palette (navy ink on white, cool grays) instead of following the
+# viewer's browser preference.
+[theme]
+base = "light"
+primaryColor = "#10233f"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#eef2f7"
+textColor = "#16202e"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false

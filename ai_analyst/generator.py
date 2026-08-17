@@ -50,20 +50,23 @@ def claude_nl_to_sql(question, schema, model=None, timeout=180):
 
 
 # --- offline demo fallback (keyword-matched canned queries) ---
+# Order and key choice matter: "trend" is checked first with precise keys, because the
+# trend example also contains "booked"/"recognized" and would otherwise be swallowed
+# by the variance entry.
 _DEMO = [
-    (("variance", "reconcil", "booked", "recognized", "gap"),
-     "SELECT resort_name, booking_month, booked_revenue_usd, recognized_revenue_usd, "
-     "variance_usd, variance_pct FROM fct_revenue_reconciliation ORDER BY variance_usd DESC LIMIT 10"),
+    (("trend", "monthly", "over time"),
+     "SELECT booking_month, ROUND(SUM(booked_revenue_usd), 2) AS booked, "
+     "ROUND(SUM(recognized_revenue_usd), 2) AS recognized "
+     "FROM fct_revenue_reconciliation GROUP BY 1 ORDER BY 1"),
     (("region",),
      "SELECT r.region, ROUND(SUM(b.booked_amount_usd), 2) AS booked_revenue "
      "FROM fct_bookings b JOIN dim_resort r ON b.resort_id = r.resort_id GROUP BY 1 ORDER BY 2 DESC"),
     (("agent", "commission"),
      "SELECT a.agent_name, ROUND(SUM(c.recorded_commission_usd), 2) AS commission "
      "FROM fct_commissions c JOIN dim_agent a ON c.agent_id = a.agent_id GROUP BY 1 ORDER BY 2 DESC LIMIT 10"),
-    (("month", "trend", "time"),
-     "SELECT booking_month, ROUND(SUM(booked_revenue_usd), 2) AS booked, "
-     "ROUND(SUM(recognized_revenue_usd), 2) AS recognized "
-     "FROM fct_revenue_reconciliation GROUP BY 1 ORDER BY 1"),
+    (("variance", "reconcil", "booked", "recognized", "gap"),
+     "SELECT resort_name, booking_month, booked_revenue_usd, recognized_revenue_usd, "
+     "variance_usd, variance_pct FROM fct_revenue_reconciliation ORDER BY variance_usd DESC LIMIT 10"),
 ]
 _DEMO_DEFAULT = ("SELECT resort_name, ROUND(SUM(booked_revenue_usd), 2) AS booked_revenue "
                  "FROM fct_revenue_reconciliation GROUP BY 1 ORDER BY 2 DESC LIMIT 10")
