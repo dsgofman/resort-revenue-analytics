@@ -10,13 +10,14 @@ and never reused as series colors.
 """
 import html
 import os
+import re
 
 import altair as alt
 import duckdb
 import pandas as pd
 import streamlit as st
 
-from generator import claude_available, nl_to_sql
+from generator import DEMO_DEFAULT_SQL, claude_available, nl_to_sql
 from guardrails import validate_sql
 from schema_context import ALLOWED_TABLES, get_schema_context
 
@@ -58,6 +59,8 @@ st.markdown(
       .gate.blocked .gmsg { color: #b3341f; }
       .gate.passed { border-color: #1e7a4c; background: #eef7f1; }
       .gate.passed .gmsg { color: #1e7a4c; }
+      .gate.notice { border-color: #10233f; background: #eef2f7; }
+      .gate.notice .gmsg { color: #10233f; }
       code { color: #10233f; }
     </style>
     """,
@@ -74,6 +77,26 @@ def gate_verdict(ok, reason):
         f'<div class="gmsg">{msg}</div></div>',
         unsafe_allow_html=True,
     )
+
+
+# Intent notice: the gate validates SQL, but a destructive ASK deserves acknowledgment
+# rather than a silent reinterpretation. This never blocks - it explains, then the
+# read-only pipeline proceeds. (Blocking on question keywords would over-block, which
+# is the failure mode the gate itself is designed to avoid.)
+_DESTRUCTIVE_ASK = re.compile(
+    r"\b(delete|drop|truncate|remove|update|insert|modify|alter|wipe|purge|erase)\b", re.I
+)
+
+
+def destructive_ask_notice(question):
+    if _DESTRUCTIVE_ASK.search(question):
+        st.markdown(
+            '<div class="gate notice"><div class="glab">Read-only by design</div>'
+            '<div class="gmsg">This analyst cannot modify data: the model is instructed '
+            'read-only, the gate rejects anything but SELECT, and the connection itself '
+            'is read-only. Interpreting your question as a read.</div></div>',
+            unsafe_allow_html=True,
+        )
 
 
 # ---------------------------------------------------------------- charts
@@ -261,12 +284,18 @@ for col, ex in zip(st.columns(len(EXAMPLES)), EXAMPLES):
 question = st.text_input("Your question", key="question")
 
 if question:
+    destructive_ask_notice(question)
     schema = get_schema_context(DB_PATH)
     with st.spinner("Asking Claude Code for SQL..." if not force_demo else "Building SQL..."):
         sql, engine = nl_to_sql(question, schema, prefer_demo=force_demo)
 
     st.subheader("Generated SQL")
     st.caption(f"engine: {engine}")
+    if engine == "demo" and sql == DEMO_DEFAULT_SQL:
+        st.caption(
+            "Offline demo matched no canned query, so this is the default example - "
+            "free-form questions need live mode."
+        )
     st.code(sql, language="sql")
 
     ok, reason, safe_sql = validate_sql(sql, ALLOWED_TABLES)

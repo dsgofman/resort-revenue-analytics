@@ -68,8 +68,8 @@ _DEMO = [
      "SELECT resort_name, booking_month, booked_revenue_usd, recognized_revenue_usd, "
      "variance_usd, variance_pct FROM fct_revenue_reconciliation ORDER BY variance_usd DESC LIMIT 10"),
 ]
-_DEMO_DEFAULT = ("SELECT resort_name, ROUND(SUM(booked_revenue_usd), 2) AS booked_revenue "
-                 "FROM fct_revenue_reconciliation GROUP BY 1 ORDER BY 2 DESC LIMIT 10")
+DEMO_DEFAULT_SQL = ("SELECT resort_name, ROUND(SUM(booked_revenue_usd), 2) AS booked_revenue "
+                    "FROM fct_revenue_reconciliation GROUP BY 1 ORDER BY 2 DESC LIMIT 10")
 
 
 def demo_nl_to_sql(question):
@@ -77,7 +77,7 @@ def demo_nl_to_sql(question):
     for keys, sql in _DEMO:
         if any(k in q for k in keys):
             return sql
-    return _DEMO_DEFAULT
+    return DEMO_DEFAULT_SQL
 
 
 def nl_to_sql(question, schema, prefer_demo=False, model=None):
