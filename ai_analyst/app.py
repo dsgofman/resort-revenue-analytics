@@ -36,7 +36,10 @@ st.markdown(
     <style>
       [data-testid="stToolbar"] { display: none; }
       #MainMenu, footer { visibility: hidden; }
-      .block-container { padding-top: 2.4rem; max-width: 1080px; }
+      /* Streamlit's fixed header overlays the page top - keep it transparent and pad
+         content clear of it so the first line can never slide underneath. */
+      header[data-testid="stHeader"] { background: transparent; }
+      .block-container { padding-top: 3.6rem; max-width: 1080px; }
       .rk { font-size: .72rem; letter-spacing: .16em; color: #6b7a90; font-weight: 600;
             text-transform: uppercase; }
       .rt { font-size: 2.05rem; letter-spacing: -.02em; color: #16202e; font-weight: 700;
